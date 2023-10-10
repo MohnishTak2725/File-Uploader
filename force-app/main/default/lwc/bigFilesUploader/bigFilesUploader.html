@@ -1,0 +1,72 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-quick-action-panel header="Upload your big files here">
+      <div>
+        <lightning-combobox
+          name="Select Object"
+          label="Select Object"
+          value={selectedObject}
+          placeholder="Select where to upload file"
+          options={objectsList}
+          onchange={handleChangeObject}
+        ></lightning-combobox>
+      </div>
+      <template lwc:if={hideShow.showFolderSelection}>
+        <div>
+          <lightning-combobox
+            name="Select Folder"
+            label="Select Folder"
+            value={selectedFolder}
+            placeholder="Select Folder"
+            options={foldersList}
+            onchange={handleChangeFolder}
+          ></lightning-combobox>
+        </div>
+      </template>
+      <div class="slds-grid">
+        <lightning-helptext
+          content="Select files to upload"
+        ></lightning-helptext>
+        <lightning-input
+          type="file"
+          accept=".txt, .docx, .pdf, .jpeg, .png, .gif, .xlsx, .csv, .mp3, .wav, .aac, .mp4, .avi, .mov, .pptx, .key, .zip, .rar, .exe, .app, .db, .sql, .html, .css, .js"
+          label="Attachment"
+          onchange={openFileUpload}
+          disabled={hideShow.isUploadDisabled}
+        ></lightning-input>
+      </div>
+      <br />
+      <template lwc:if={hideShow.showLoadingSpinner}>
+        <div class="slds-text-body_small slds-text-color_error">Uploading... 
+            <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>
+        </div>
+      </template>
+      <br />
+      <div class="slds-text-body_medium slds-text-color_error">
+        <!-- {filename} -->
+        <template for:each={files} for:item="file" for:index="index">
+           <li key={file}>
+                {file.name}
+           </li>
+        </template>
+      </div>
+      <div slot="footer">
+        <lightning-button
+          variant="brand"
+          label="Submit"
+          title="Submit"
+          disabled={hideShow.isSaveDisabled}
+          onclick={uploadProcess}
+        ></lightning-button>
+        &nbsp;
+        <lightning-button
+          variant="destructive"
+          label="Cancel"
+          title="Cancel"
+          disabled={hideShow.isCancelDisabled}
+          onclick={clearSelection}
+        ></lightning-button>
+      </div>
+    </lightning-quick-action-panel>
+  </template>
